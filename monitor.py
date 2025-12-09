@@ -1,4 +1,4 @@
-def index_builder(template_path,var_list):
+def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
         content = template.read()
         for var in var_list:
@@ -14,4 +14,4 @@ var_list = [
                 {'label': '{{ storage_load }}', 'value' : '70%'}
             ]
 
-index_builder('template.html',var_list)
+html_page_builder('template.html',var_list)
