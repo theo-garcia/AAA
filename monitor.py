@@ -1,23 +1,17 @@
+def index_builder(template_path,var_list):
+    with open(template_path, 'r') as template:
+        content = template.read()
+        for var in var_list:
+            content = content.replace(var['label'],var['value'])
+    with open('index.html', 'w') as file:
+        file.write(content)
+    
+var_list = [
+                {'label': '{{ cpu_load }}', 'value' : '50%'},
+                {'label': '{{ ram_size }}', 'value' : '6G'},
+                {'label': '{{ ram_load }}', 'value' : '30%'},
+                {'label': '{{ storage_size }}', 'value' : '70G'},
+                {'label': '{{ storage_load }}', 'value' : '70%'}
+            ]
 
-from jinja2 import Environment, FileSystemLoader
-
-# loading the environment
-env = Environment(loader = FileSystemLoader('.'))
-
-# loading the template
-template = env.get_template('template.html')
-
-# rendering the template and storing the resultant text in variable output
-content = template.render(
-    cpu_load = '50%',
-    ram_size = '6G',
-    ram_load = '30%',
-    storage_size = '70G',
-    storage_load = '70%'
-)
-
-# printing the output on screen
-print(content)
-
-with open('index.html', 'w') as file:
-    file.write(content)
+index_builder('template.html',var_list)
