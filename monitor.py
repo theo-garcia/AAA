@@ -1,18 +1,13 @@
-import psutil                    # pour le CPU, RAM
-import platform                  # pour nom de la machine et OS
-import socket                    #pour IP
-from datetime import datetime    #conversion des timestamps
-import sys
-import os 
-
-
+import psutil                    # CPU and RAM
+import platform                  # hostname and OS
+import socket                    # IP
+from datetime import datetime    # timestamps formats
+import sys                       # windows version 
 
 def get_cpu_info():
     cpu_cores = psutil.cpu_count(logical=True)
     cpu_freq = psutil.cpu_freq().current
     cpu_percent = psutil.cpu_percent(interval=1)
-
-
     return {
         "cpu_cores": cpu_cores,
         "cpu_frequency": cpu_freq,
@@ -27,11 +22,9 @@ def get_memory_info():
         "percent": mem.percent
     }
 
-
 def get_system_info():
     boot_time = datetime.fromtimestamp(psutil.boot_time())
     uptime_seconds = (datetime.now() - boot_time).total_seconds()
-
     return {
         "machine_name": platform.node(),
         "os": platform.system(),
@@ -41,26 +34,12 @@ def get_system_info():
         "ip_address": socket.gethostbyname(socket.gethostname())
     }
 
-
 def get_win_os_version():
-         ver = sys.getwindowsversion().build
-    
-         if ver >= 22000:
-           return f"os_version: Windows 11"
-         else:
-          return f"os_version: Windows 10"
-
-
-    
-
-
-# faire le par feu
-# fermer leport ftp
-# ouvrir le port https et faire un certif auto signer 
-
-
-
-
+    ver = sys.getwindowsversion().build
+    if ver >= 22000:
+        return f"os_version: Windows 11"
+    else:
+        return f"os_version: Windows 10"
 
 print(get_cpu_info())
 print(get_memory_info())
