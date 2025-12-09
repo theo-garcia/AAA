@@ -2,27 +2,147 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="30">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AAA Server Monitor</title>
+    <title>EMERALD</title>
+    <link rel="stylesheet" href="template.css">
 </head>
 <body>
-    <section>
-        <p>CPU FREQUENCY: {{ cpu_frequency }}</p>
-        <p>CPU THREADS: {{ cpu_nb_threads }}</p>
-        <p>CPU LOAD: {{ cpu_load }}</p>
-    </section>
-    <section>
-        <p>RAM SIZE: {{ ram_size }}</p>
-        <p>RAM USED: {{ ram_used }}</p>
-        <p>RAM LOAD: {{ ram_load }}</p>
-    </section>
-    <section>
-        <p>HOSTNAME: {{ hostname }}</p>
-        <p>OS: {{ os }}</p>
-        <p>BOOT TIME: {{ boot_time }}</p>
-        <p>UPTIME: {{ uptime_hours }}</p>
-        <p>CONNECTED USERS: {{ connected_users }}</p>
-        <p>IP ADDRESS: {{ ip_address }}</p>
-    </section>
+
+    <header>
+        <div>
+            <h1>EMERALD</h1>
+            <span>DASHBOARD SYSTEM</span>
+        </div>
+        <div class="meta">
+            <div>Dernier scan</div>
+            <div>{{ boot_time }}</div>
+        </div>
+    </header>
+
+    <main>
+        <section class="card">
+            <h2>SYSTEM</h2>
+            <div class="gauge-container">
+                <span>{{ hostname }}</span>
+            <div>Last scan</div>
+                <span>{{ boot_time }}</span>
+           <div>OS System</div>
+                <span>{{ os }}</span>
+            <div>OS version</div>
+                <span>{{ os_version }}</span>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>PROCESSOR</h2>
+            <div class="gauge-container">
+                <div class="donut status-{{ cpu_color }}" style="--percent: {{ cpu_percent }}deg;">
+                    <span class="donut-value">{{ cpu_load }}<span style="font-size:1rem">%</span></span>
+                </div>
+                <div class="gauge-label">Global Charge</div>
+            </div>
+
+            <div>
+                <div>Heart Charge</div>
+                <div class="cpu-grid">
+                    {{ cpu_nb_threads }}
+                </div>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>RAM</h2>
+            <div class="gauge-container">
+                <div class="donut status-{{ ram_color }}" style="--percent: {{ ram_angle }}deg;">
+                    <span class="donut-value">{{ ram_load }}<span style="font-size:1rem">%</span></span>
+                </div>
+                <div class="gauge-label">{{ ram_used }} Go / {{ ram_size }} Go</div>
+            </div>
+        </section>
+
+
+        <section class="card">
+            <h2>NETWORK</h2>
+            <div class="gauge-container">
+            <div>IP ADDRESS</div>
+                <span>{{ ip_address }}</span>
+        </section>
+
+
+
+        <section class="card" style="grid-column: 1 / -1;">
+            <h2>PROCESS</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                
+                <div>
+                    <h3>COMSUPTION</h3>
+                    <table>
+                        <thead>
+                            <tr><th>NAME</th><th>CPU</th><th>RAM</th></tr>
+                        </thead>
+                        <tbody>
+                            {{ process_stats_rows }}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <h3>TOP 3 PROCESS</h3>
+                    <table>
+                        <thead>
+                            <tr><th>NAME</th><th>ROWS</th></tr>
+                        </thead>
+                        <tbody>
+                            {{ top_process_rows }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    
+    <section class="card" style="grid-column: 1 / -1;">
+            <h2>STOCKAGE SCAN <span>({{ target_folder }})</span></h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
+                
+                <div>
+                    <h3>SIZE BY TYPE</h3>
+                    <table>
+                        <thead>
+                            <tr><th>TYPE</th><th>FILES</th><th>SIZE</th></tr>
+                        </thead>
+                        <tbody>
+                            {{ files_stats_rows }}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div>
+                    <h3>TOP 5 SIZE</h3>
+                    <table>
+                        <thead>
+                            <tr><th>FILE'S NAME</th><th>SIZE</th></tr>
+                        </thead>
+                        <tbody>
+                            {{ top_files_rows }}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+            <div>
+            <h1>SYSTEM MONITOR</h1>
+            <span style="color: var(--accent); font-family: monospace;">>> {{ system_hostname }}</span>
+        </div>
+        <div class="meta">
+            <div>Last Scan</div>
+            <div style="color: var(--text-highlight); font-family: monospace;">{{ generation_timestamp }}</div>
+        </div>
+    </footer>
 </body>
 </html>
