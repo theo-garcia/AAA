@@ -14,8 +14,8 @@ def get_cpu_infos():
 def get_memory_infos():
     mem = psutil.virtual_memory()
     return {
-        "size": round(mem.used / (1024**3)),
-        "used": round(mem.total / (1024**3)),
+        "size": round(mem.total / (1024**3)),
+        "used": round(mem.used / (1024**3)),
         "load": mem.percent
     }
 

@@ -7,19 +7,22 @@
 </head>
 <body>
     <section>
+        <p>CPU FREQUENCY: {{ cpu_frequency }}</p>
+        <p>CPU THREADS: {{ cpu_nb_threads }}</p>
         <p>CPU LOAD: {{ cpu_load }}</p>
     </section>
     <section>
         <p>RAM SIZE: {{ ram_size }}</p>
-    </section>
-    <section>
+        <p>RAM USED: {{ ram_used }}</p>
         <p>RAM LOAD: {{ ram_load }}</p>
     </section>
     <section>
-        <p>STORAGE SIZE: {{ storage_size }}</p>
-    </section>
-    <section>
-        <p>STORAGE LOAD: {{ storage_load }}</p>
+        <p>HOSTNAME: {{ hostname }}</p>
+        <p>OS: {{ os }}</p>
+        <p>BOOT TIME: {{ boot_time }}</p>
+        <p>UPTIME: {{ uptime_hours }}</p>
+        <p>CONNECTED USERS: {{ connected_users }}</p>
+        <p>IP ADDRESS: {{ ip_address }}</p>
     </section>
 </body>
 </html>
