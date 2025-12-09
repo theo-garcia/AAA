@@ -2,6 +2,9 @@ import psutil                    # pour le CPU, RAM
 import platform                  # pour nom de la machine et OS
 import socket                    #pour IP
 from datetime import datetime    #conversion des timestamps
+import sys
+import os 
+
 
 
 def get_cpu_info():
@@ -32,7 +35,6 @@ def get_system_info():
     return {
         "machine_name": platform.node(),
         "os": platform.system(),
-        "os_version": platform.release(),
         "boot_time": boot_time.strftime("%Y-%m-%d %H:%M:%S"),
         "uptime_hours": round(uptime_seconds / 3600, 2),
         "connected_users": len(psutil.users()),
@@ -40,11 +42,21 @@ def get_system_info():
     }
 
 
+def get_win_os_version():
+         ver = sys.getwindowsversion().build
+    
+         if ver >= 22000:
+           return f"os_version: Windows 11"
+         else:
+          return f"os_version: Windows 10"
 
 
+    
 
 
-
+# faire le par feu
+# fermer leport ftp
+# ouvrir le port https et faire un certif auto signer 
 
 
 
@@ -53,3 +65,5 @@ def get_system_info():
 print(get_cpu_info())
 print(get_memory_info())
 print(get_system_info())
+if platform.system()=="Windows":
+    print(get_win_os_version())
