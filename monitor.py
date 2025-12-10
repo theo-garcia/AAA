@@ -47,8 +47,9 @@ def html_page_builder(template_path,var_list):
         file.write(content)
 
 if platform.system()=="Windows":
-    print(get_win_os_version())        
-    
+    print(get_win_os_version())     
+
+execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
@@ -65,7 +66,10 @@ var_list = [
                 {'label': '{{ boot_time }}', 'value' : str(system_infos['boot_time'])},
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
-                {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])}
+                {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
+                {'label': '{{ date_execution }}', 'value': execution_date}
             ]
 
 html_page_builder('template.html',var_list)
+
+
