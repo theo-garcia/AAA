@@ -3,6 +3,14 @@ import platform                  # hostname and OS
 import socket                    # IP
 from datetime import datetime    # timestamps formats
 import sys                       # windows version 
+import os                        # system commands
+
+exts = [
+        '.txt', '.py', '.pdf', '.jpg',
+        '.png', '.docx', '.xlsx',
+        '.zip', '.mp4', '.mp3', '.iso',
+        '.json', '.html', '.css', '.js'
+        ]
 
 def get_cpu_infos():
     return {
@@ -38,6 +46,21 @@ def get_win_os_version():
     else:
         return f"os_version: Windows 10"      
       
+def count_exts(folder):
+    counts = {ext: 0 for ext in exts}
+    for root, dirs, files in os.walk(folder):
+        for file in files:
+            ext = os.path.splitext(file)[1].lower()
+            if ext in counts:
+                counts[ext] += 1
+    total = sum(counts.values())
+    return counts, total
+
+def get_exts_distribution(count, total):
+    if total == 0:
+        return "0%"
+    return f"({count * 100 / total:.2f}%)"
+
 def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
         content = template.read()
@@ -46,13 +69,16 @@ def html_page_builder(template_path,var_list):
     with open('index.html', 'w') as file:
         file.write(content)
 
-if platform.system()=="Windows":
-    print(get_win_os_version())     
+""" if platform.system()=="Windows":
+    print(get_win_os_version())      """
+
+folder_to_inspect = input("Path of the folder to inspect : ")
 
 execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
+counts, total = count_exts(folder_to_inspect)
     
 var_list = [    
                 {'label': '{{ cpu_nb_threads }}', 'value' : str(cpu_infos['nb_threads'])},
@@ -67,9 +93,13 @@ var_list = [
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
                 {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
-                {'label': '{{ date_execution }}', 'value': execution_date}
+                {'label': '{{ execution_date }}', 'value' : str(execution_date)}
             ]
-
 html_page_builder('template.html',var_list)
 
+counts, total = count_exts(folder_to_inspect)
 
+for ext in exts:
+    print(f"Files {ext:<5} :", counts[ext], get_exts_distribution(counts[ext], total))
+
+print("Total files analyzed :", total)
