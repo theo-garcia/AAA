@@ -5,6 +5,8 @@ from datetime import datetime    # timestamps formats
 import sys                       # windows version 
 import os                        # system commands
 
+folder_to_inspect = "/home/emerald/"
+
 exts = [
         '.txt', '.py', '.pdf', '.jpg',
         '.png', '.docx', '.xlsx',
@@ -46,7 +48,7 @@ def get_win_os_version():
     else:
         return f"os_version: Windows 10"      
       
-def count_exts(folder):
+def get_exts_counts(folder):
     counts = {ext: 0 for ext in exts}
     for root, dirs, files in os.walk(folder):
         for file in files:
@@ -56,10 +58,21 @@ def count_exts(folder):
     total = sum(counts.values())
     return counts, total
 
-def get_exts_distribution(count, total):
+def get_exts_percentages(counts, total):
+    distributions = {ext: 0 for ext in exts}
     if total == 0:
-        return "0%"
-    return f"({count * 100 / total:.2f}%)"
+        for count in counts:
+            distributions[count.key()] = "0%"
+        return distributions
+    for count in counts:
+        distributions[count] = f"{counts[count] * 100 / total:.2f}%"
+    return distributions
+
+def get_html_table_data_string_from_list(data_list,dict1,dict2):
+    table_data = ""
+    for data in data_list:
+        table_data += ("<tr><td>"+ str(data) + "</td><td>" + str(dict1[data]) + "</td><td>" + str(dict2[data]) + "</td></tr>")
+    return table_data
 
 def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
@@ -69,17 +82,14 @@ def html_page_builder(template_path,var_list):
     with open('index.html', 'w') as file:
         file.write(content)
 
-""" if platform.system()=="Windows":
-    print(get_win_os_version())      """
-
-folder_to_inspect = input("Path of the folder to inspect : ")
-
 execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
-counts, total = count_exts(folder_to_inspect)
-    
+counts, total = get_exts_counts(folder_to_inspect)
+percentages = get_exts_percentages(counts, total)
+table_data = get_html_table_data_string_from_list(exts,counts,percentages)
+
 var_list = [    
                 {'label': '{{ cpu_nb_threads }}', 'value' : str(cpu_infos['nb_threads'])},
                 {'label': '{{ cpu_frequency }}', 'value' : str(cpu_infos['frequency'])},
@@ -93,13 +103,9 @@ var_list = [
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
                 {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
-                {'label': '{{ execution_date }}', 'value' : str(execution_date)}
+                {'label': '{{ target_folder }}', 'value' : folder_to_inspect},
+                {'label': '{{ table_data }}', 'value' : table_data},
+                {'label': '{{ execution_date }}', 'value' : execution_date}
             ]
+
 html_page_builder('template.html',var_list)
-
-counts, total = count_exts(folder_to_inspect)
-
-for ext in exts:
-    print(f"Files {ext:<5} :", counts[ext], get_exts_distribution(counts[ext], total))
-
-print("Total files analyzed :", total)

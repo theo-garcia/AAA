@@ -23,7 +23,7 @@
                 </header>
                 <div>
                     <h3>Hostname:</h3><span> FW-WIN-ARTHUR</span></br>
-                    <h3>Last boot:</h3><span> 2025-12-10 12:48:37</span></br>
+                    <h3>Last boot:</h3><span> 2025-12-10 19:24:50</span></br>
                     <h3>OS:</h3><span> Windows</span></br>
                     <h3>Version:</h3><span> {{ os_version }}</span></br>
                 </div>
@@ -35,7 +35,7 @@
                 </header>
                 <div class="gauge-container">
                     <div class="donut status-{{ cpu_status }}" style="--percent: {{ cpu_percent }}deg;">
-                        <span class="donut-value">5.1<span>%</span></span>
+                        <span class="donut-value">1.5<span>%</span></span>
                     </div>
                     <div class="gauge-label">CPU Load</div>
                 </div>
@@ -50,7 +50,7 @@
                 </header>
                 <div class="gauge-container">
                     <div class="donut status-{{ ram_status }}">
-                        <span class="donut-value">40.2<span>%</span></span>
+                        <span class="donut-value">35.5<span>%</span></span>
                     </div>
                     <div class="gauge-label">6 Go / 16 Go</div>
                 </div>
@@ -60,7 +60,7 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M248 88l80 0 0 48-80 0 0-48zm-8-56c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l16 0 0 32-224 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 192 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0 0-32 16 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-96 0zM448 376l8 0 0 48-80 0 0-48 72 0zm-256 0l8 0 0 48-80 0 0-48 72 0z"/></svg>
                     <h2>NETWORK</h2>
                 </header>
-                <h3>IP ADDRESS: </h3><span>10.10.10.27</span>
+                <h3>IP ADDRESS: </h3><span>192.168.1.16</span>
             </section>
             <section>
                 <header>
@@ -97,16 +97,16 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 260.1C18.1 247.4 40.2 240 64 240l320 0c23.8 0 45.9 7.4 64 20.1L448 96c0-35.3-28.7-64-64-64L64 32zM448 352c0-35.3-28.7-64-64-64L64 288c-35.3 0-64 28.7-64 64l0 64c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-64zM224 384a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm128-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                     <h2>STORAGE SCAN</h2>
                 </header> 
-                    <p>({{ target_folder }})</p>
+                    <p>(C:\Users\Arthur\Documents\laplateforme)</p>
                 <div>
                     <div>
                         <h3>SIZE BY TYPE</h3>
                         <table>
                             <thead>
-                                <tr><th>TYPE</th><th>FILES</th><th>SIZE</th></tr>
+                                <tr><th>TYPES</th><th>AMOUNT</th><th>PERCENTAGE</th></tr>
                             </thead>
                             <tbody>
-                                {{ files_stats_rows }}
+                                <tr><td>.txt</td><td>8</td><td>0.84%</td></tr><tr><td>.py</td><td>508</td><td>53.53%</td></tr><tr><td>.pdf</td><td>42</td><td>4.43%</td></tr><tr><td>.jpg</td><td>62</td><td>6.53%</td></tr><tr><td>.png</td><td>274</td><td>28.87%</td></tr><tr><td>.docx</td><td>3</td><td>0.32%</td></tr><tr><td>.xlsx</td><td>0</td><td>0.00%</td></tr><tr><td>.zip</td><td>0</td><td>0.00%</td></tr><tr><td>.mp4</td><td>9</td><td>0.95%</td></tr><tr><td>.mp3</td><td>1</td><td>0.11%</td></tr><tr><td>.iso</td><td>0</td><td>0.00%</td></tr><tr><td>.json</td><td>0</td><td>0.00%</td></tr><tr><td>.html</td><td>26</td><td>2.74%</td></tr><tr><td>.css</td><td>16</td><td>1.69%</td></tr><tr><td>.js</td><td>0</td><td>0.00%</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -126,7 +126,7 @@
         </main>
         <footer>
             <h2>LAST UPDATE</h2>
-            <span>{{ execution_date }}</span>
+            <span>2025-12-10 19:41:08</span>
         </footer>
     </body>
 </html>
