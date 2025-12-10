@@ -1,148 +1,132 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="30">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMERALD</title>
-    <link rel="stylesheet" href="template.css">
-</head>
-<body>
-
-    <header>
-        <div>
-            <h1>EMERALD</h1>
-            <span>DASHBOARD SYSTEM</span>
-        </div>
-        <div class="meta">
-            <div>Dernier scan</div>
-            <div>{{ boot_time }}</div>
-        </div>
-    </header>
-
-    <main>
-        <section class="card">
-            <h2>SYSTEM</h2>
-            <div class="gauge-container">
-                <span>{{ hostname }}</span>
-            <div>Last scan</div>
-                <span>{{ boot_time }}</span>
-           <div>OS System</div>
-                <span>{{ os }}</span>
-            <div>OS version</div>
-                <span>{{ os_version }}</span>
-            </div>
-        </section>
-
-        <section class="card">
-            <h2>PROCESSOR</h2>
-            <div class="gauge-container">
-                <div class="donut status-{{ cpu_color }}" style="--percent: {{ cpu_percent }}deg;">
-                    <span class="donut-value">{{ cpu_load }}<span style="font-size:1rem">%</span></span>
-                </div>
-                <div class="gauge-label">Global Charge</div>
-            </div>
-
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="30">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EMERALD</title>
+        <link rel="stylesheet" href="template.css">
+    </head>
+    <body>
+        <header>
+            <img src="images/emerald_logo.png" alt="emerald with charts in transparency">
             <div>
-                <div>Heart Charge</div>
-                <div class="cpu-grid">
-                    {{ cpu_nb_threads }}
-                </div>
+                <h1>EMERALD</h1>
+                <span>SYSTEM MONITOR</span>
             </div>
-        </section>
-
-        <section class="card">
-            <h2>RAM</h2>
-            <div class="gauge-container">
-                <div class="donut status-{{ ram_color }}" style="--percent: {{ ram_angle }}deg;">
-                    <span class="donut-value">{{ ram_load }}<span style="font-size:1rem">%</span></span>
-                </div>
-                <div class="gauge-label">{{ ram_used }} Go / {{ ram_size }} Go</div>
-            </div>
-        </section>
-
-
-        <section class="card">
-            <h2>NETWORK</h2>
-            <div class="gauge-container">
-            <div>IP ADDRESS</div>
-                <span>{{ ip_address }}</span>
-        </section>
-
-
-
-        <section class="card" style="grid-column: 1 / -1;">
-            <h2>PROCESS</h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
-                
+        </header>
+        <main>
+            <section>
+                <header>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96l0 64c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-64c0-35.3-28.7-64-64-64L64 32zm216 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0zM64 288c-35.3 0-64 28.7-64 64l0 64c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-64c0-35.3-28.7-64-64-64L64 288zm216 72a24 24 0 1 1 0 48 24 24 0 1 1 0-48zm56 24a24 24 0 1 1 48 0 24 24 0 1 1 -48 0z"/></svg>
+                    <h2>SYSTEM</h2>
+                </header>
                 <div>
-                    <h3>COMSUPTION</h3>
-                    <table>
-                        <thead>
-                            <tr><th>NAME</th><th>CPU</th><th>RAM</th></tr>
-                        </thead>
-                        <tbody>
-                            {{ process_stats_rows }}
-                        </tbody>
-                    </table>
+                    <h3>Hostname:</h3><span> {{ hostname }}</span></br>
+                    <h3>Last boot:</h3><span> {{ boot_time }}</span></br>
+                    <h3>OS:</h3><span> {{ os }}</span></br>
+                    <h3>Version:</h3><span> {{ os_version }}</span></br>
                 </div>
-
+            </section>
+            <section>
+                <header>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c-35.3 0-64 28.7-64 64l-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0 0 56-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0 0 56-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0c0 35.3 28.7 64 64 64l0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40 56 0 0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40 56 0 0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40c35.3 0 64-28.7 64-64l40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0 0-56 40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0 0-56 40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0c0-35.3-28.7-64-64-64l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40-56 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40-56 0 0-40zM160 128l192 0c17.7 0 32 14.3 32 32l0 192c0 17.7-14.3 32-32 32l-192 0c-17.7 0-32-14.3-32-32l0-192c0-17.7 14.3-32 32-32zm16 48l0 160 160 0 0-160-160 0z"/></svg>
+                    <h2>CPU</h2>
+                </header>
+                <div class="gauge-container">
+                    <div class="donut status-{{ cpu_status }}" style="--percent: {{ cpu_percent }}deg;">
+                        <span class="donut-value">{{ cpu_load }}<span>%</span></span>
+                    </div>
+                    <div class="gauge-label">CPU Load</div>
+                </div>
                 <div>
-                    <h3>TOP 3 PROCESS</h3>
-                    <table>
-                        <thead>
-                            <tr><th>NAME</th><th>ROWS</th></tr>
-                        </thead>
-                        <tbody>
-                            {{ top_process_rows }}
-                        </tbody>
-                    </table>
+                    <h3>Threads: </h3><span> {{ cpu_nb_threads }}</span>
                 </div>
-            </div>
-        </section>
-    
-    <section class="card" style="grid-column: 1 / -1;">
-            <h2>STOCKAGE SCAN <span>({{ target_folder }})</span></h2>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px;">
-                
+            </section>
+            <section>
+                <header>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 64C28.7 64 0 92.7 0 128l0 7.4C0 142.2 4.4 148 10.1 151.7 23.3 160.3 32 175.1 32 192s-8.7 31.7-21.9 40.3C4.4 236 0 241.8 0 248.6l0 55.4 512 0 0-55.4c0-6.8-4.4-12.6-10.1-16.3-13.2-8.6-21.9-23.4-21.9-40.3s8.7-31.7 21.9-40.3c5.7-3.7 10.1-9.5 10.1-16.3l0-7.4c0-35.3-28.7-64-64-64L64 64zM512 416l0-64-512 0 0 64c0 17.7 14.3 32 32 32l64 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 88 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 88 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 64 0c17.7 0 32-14.3 32-32zM160 160l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32z"/></svg>
+                    <h2>RAM</h2>
+                </header>
+                <div class="gauge-container">
+                    <div class="donut status-{{ ram_status }}">
+                        <span class="donut-value">{{ ram_load }}<span>%</span></span>
+                    </div>
+                    <div class="gauge-label">{{ ram_used }} Go / {{ ram_size }} Go</div>
+                </div>
+            </section>
+            <section>
+                <header>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M248 88l80 0 0 48-80 0 0-48zm-8-56c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l16 0 0 32-224 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 192 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0 0-32 16 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-96 0zM448 376l8 0 0 48-80 0 0-48 72 0zm-256 0l8 0 0 48-80 0 0-48 72 0z"/></svg>
+                    <h2>NETWORK</h2>
+                </header>
+                <h3>IP ADDRESS: </h3><span>{{ ip_address }}</span>
+            </section>
+            <section>
+                <header>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M415.9 210.5c12.2-3.3 25 2.5 30.5 13.8L465 261.9c10.3 1.4 20.4 4.2 29.9 8.1l35-23.3c10.5-7 24.4-5.6 33.3 3.3l19.2 19.2c8.9 8.9 10.3 22.9 3.3 33.3l-23.3 34.9c1.9 4.7 3.6 9.6 5 14.7 1.4 5.1 2.3 10.1 3 15.2l37.7 18.6c11.3 5.6 17.1 18.4 13.8 30.5l-7 26.2c-3.3 12.1-14.6 20.3-27.2 19.5l-42-2.7c-6.3 8.1-13.6 15.6-21.9 22l2.7 41.9c.8 12.6-7.4 24-19.5 27.2l-26.2 7c-12.2 3.3-24.9-2.5-30.5-13.8l-18.6-37.6c-10.3-1.4-20.4-4.2-29.9-8.1l-35 23.3c-10.5 7-24.4 5.6-33.3-3.3l-19.2-19.2c-8.9-8.9-10.3-22.8-3.3-33.3l23.3-35c-1.9-4.7-3.6-9.6-5-14.7s-2.3-10.2-3-15.2l-37.7-18.6c-11.3-5.6-17-18.4-13.8-30.5l7-26.2c3.3-12.1 14.6-20.3 27.2-19.5l41.9 2.7c6.3-8.1 13.6-15.6 21.9-22l-2.7-41.8c-.8-12.6 7.4-24 19.5-27.2l26.2-7zM448.4 340a44 44 0 1 0 .1 88 44 44 0 1 0 -.1-88zM224.9-45.5l26.2 7c12.1 3.3 20.3 14.7 19.5 27.2l-2.7 41.8c8.3 6.4 15.6 13.8 21.9 22l42-2.7c12.5-.8 23.9 7.4 27.2 19.5l7 26.2c3.2 12.1-2.5 24.9-13.8 30.5l-37.7 18.6c-.7 5.1-1.7 10.2-3 15.2s-3.1 10-5 14.7l23.3 35c7 10.5 5.6 24.4-3.3 33.3L307.3 262c-8.9 8.9-22.8 10.3-33.3 3.3L239 242c-9.5 3.9-19.6 6.7-29.9 8.1l-18.6 37.6c-5.6 11.3-18.4 17-30.5 13.8l-26.2-7c-12.2-3.3-20.3-14.7-19.5-27.2l2.7-41.9c-8.3-6.4-15.6-13.8-21.9-22l-42 2.7c-12.5 .8-23.9-7.4-27.2-19.5l-7-26.2c-3.2-12.1 2.5-24.9 13.8-30.5l37.7-18.6c.7-5.1 1.7-10.1 3-15.2 1.4-5.1 3-10 5-14.7L55.1 46.5c-7-10.5-5.6-24.4 3.3-33.3L77.6-6c8.9-8.9 22.8-10.3 33.3-3.3l35 23.3c9.5-3.9 19.6-6.7 29.9-8.1l18.6-37.6c5.6-11.3 18.3-17 30.5-13.8zM192.4 84a44 44 0 1 0 0 88 44 44 0 1 0 0-88z"/></svg>
+                    <h2>PROCESSES</h2>
+                </header>
                 <div>
-                    <h3>SIZE BY TYPE</h3>
-                    <table>
-                        <thead>
-                            <tr><th>TYPE</th><th>FILES</th><th>SIZE</th></tr>
-                        </thead>
-                        <tbody>
-                            {{ files_stats_rows }}
-                        </tbody>
-                    </table>
+                    <div>
+                        <h3>LIST</h3>
+                        <table>
+                            <thead>
+                                <tr><th>NAME</th><th>CPU</th><th>RAM</th></tr>
+                            </thead>
+                            <tbody>
+                                {{ process_stats_rows }}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>TOP 3 PROCESS</h3>
+                        <table>
+                            <thead>
+                                <tr><th>NAME</th><th>ROWS</th></tr>
+                            </thead>
+                            <tbody>
+                                {{ top_process_rows }}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
+            </section>
+            <section>
+                <header>  
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 260.1C18.1 247.4 40.2 240 64 240l320 0c23.8 0 45.9 7.4 64 20.1L448 96c0-35.3-28.7-64-64-64L64 32zM448 352c0-35.3-28.7-64-64-64L64 288c-35.3 0-64 28.7-64 64l0 64c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-64zM224 384a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm128-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                    <h2>STORAGE SCAN</h2>
+                </header> 
+                    <p>({{ target_folder }})</p>
                 <div>
-                    <h3>TOP 5 SIZE</h3>
-                    <table>
-                        <thead>
-                            <tr><th>FILE'S NAME</th><th>SIZE</th></tr>
-                        </thead>
-                        <tbody>
-                            {{ top_files_rows }}
-                        </tbody>
-                    </table>
+                    <div>
+                        <h3>SIZE BY TYPE</h3>
+                        <table>
+                            <thead>
+                                <tr><th>TYPE</th><th>FILES</th><th>SIZE</th></tr>
+                            </thead>
+                            <tbody>
+                                {{ files_stats_rows }}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>TOP 5 SIZE</h3>
+                        <table>
+                            <thead>
+                                <tr><th>FILE'S NAME</th><th>SIZE</th></tr>
+                            </thead>
+                            <tbody>
+                                {{ top_files_rows }}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-            <div>
-            <h1>SYSTEM MONITOR</h1>
-            <span style="color: var(--accent); font-family: monospace;">>> {{ system_hostname }}</span>
-        </div>
-        <div class="meta">
-            <div>Last Scan</div>
-            <div style="color: var(--text-highlight); font-family: monospace;">{{ generation_timestamp }}</div>
-        </div>
-    </footer>
-</body>
+            </section>
+        </main>
+        <footer>
+            <h2>LAST UPDATE</h2>
+            <span>{{ execution_date }}</span>
+        </footer>
+    </body>
 </html>

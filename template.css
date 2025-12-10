@@ -1,59 +1,71 @@
 :root {
-    --bg-color: #ffffff;           /* Fond très sombre (style IDE) */
-    --card-bg: #ffffff;            /* Fond des cartes */
-    --text-primary: #000000;       /* Texte clair lisible */
-    --text-highlight: #28653d;        /* Titres */
+    --bg-color: #ffffff;
+    --section-bg: #ffffff;
+    --text-primary: #000000;
+    --text-titles: #28653d;
     --accent: #28653D;            
-    --border: #28653D;             /* Bordures subtiles */
+    --border: #28653D;
     
-    /* Couleurs de statut (Néon) */
-    --c-green: #9ece6a;
-    --c-orange: #e0af68;
-    --c-red: #f7768e;
+    /* Status colors */
+    --color-ok: #9ece6a;
+    --color-warning: #e0af68;
+    --color-danger: #f7768e;
 }
 
 body {
-    font-family: 'Inter', 'Segoe UI', sans-serif; /* Police moderne */
+    font-family: 'Inter', 'Segoe UI', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
     margin: 0;
     padding: 40px;
-    line-height: 1.6;
+}
+
+svg {
+    height: 20px;
+    width: auto;
+    fill: var(--accent);
 }
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     border-bottom: 1px solid var(--border);
     padding-bottom: 20px;
     margin-bottom: 40px;
 }
 
+section header{
+    justify-content: space-between;
+}
+
+header img{
+    height: 100px;
+    width: auto;
+}
+
 h1 {
-    color: var(--text-highlight);
+    color: var(--text-titles);
     font-size: 1.8rem;
     font-weight: 600;
     margin: 0;
     letter-spacing: -0.5px;
 }
 
-.meta {
-    font-size: 0.85rem;
-    text-align: right;
-    opacity: 0.7;
+h3 {
+    display: inline;
+    color: var(--text-titles);
 }
 
-/* Grille principale */
 main {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 30px;
+    margin-bottom: 30px;
 }
 
-/* Cartes */
-.card {
-    background: var(--card-bg);
+section {
+    background: var(--section-bg);
     border: 1px solid var(--border);
     border-radius: 16px;
     padding: 25px;
@@ -62,7 +74,7 @@ main {
 }
 
 h2 {
-    color: var(--text-highlight);
+    color: var(--text-titles);
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1.2px;
@@ -72,7 +84,6 @@ h2 {
     padding-left: 10px;
 }
 
-/* --- Jauges (Donut Charts) --- */
 .gauge-container {
     display: flex;
     flex-direction: column;
@@ -84,7 +95,6 @@ h2 {
     width: 140px;
     height: 140px;
     border-radius: 50%;
-    /* Le fond gris du donut est adapté au thème sombre */
     background: conic-gradient(var(--fill-color) var(--percent), #16161e 0); 
     display: flex;
     align-items: center;
@@ -93,20 +103,11 @@ h2 {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-.donut::after {
-    content: "";
-    width: 110px;
-    height: 110px;
-    background: var(--card-bg); /* Centre de la même couleur que la carte */
-    border-radius: 50%;
-    position: absolute;
-}
-
 .donut-value {
     z-index: 1;
     font-size: 2.2rem;
     font-weight: 700;
-    color: var(--text-highlight);
+    color: var(--text-titles);
 }
 
 .gauge-label {
@@ -115,28 +116,10 @@ h2 {
     opacity: 0.8;
 }
 
-/* --- Grille CPU Cores --- */
-.cpu-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 8px;
-    margin-top: 25px;
-}
-
-.core-box {
-    background: rgba(0,0,0,0.2);
-    padding: 8px;
-    border-radius: 6px;
-    text-align: center;
-    font-size: 0.75rem;
-    color: var(--text-highlight);
-}
-
-/* --- Tableaux --- */
 table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 5px; /* Espacement entre les lignes */
+    border-spacing: 0 5px;
     font-size: 0.85rem;
 }
 
@@ -148,23 +131,6 @@ th {
     border-bottom: 1px solid var(--border);
 }
 
-td {
-    padding: 10px;
-    background: rgba(0, 116, 66, 0.03); /* Lignes légèrement claires */
-}
-
-td:first-child { border-radius: 6px 0 0 6px; }
-td:last-child { border-radius: 0 6px 6px 0; }
-
-.size-tag {
-    background: var();
-    padding: 2px 8px;
-    border-radius: 4px;
-    color: var(--text-primary);
-    font-family: monospace;
-}
-
-/* Utilitaires couleurs pour injection Python */
-.status-green { --fill-color: var(--c-green); color: var(--c-green); }
-.status-orange { --fill-color: var(--c-orange); color: var(--c-orange); }
-.status-red { --fill-color: var(--c-red); color: var(--c-red); }
+.status-ok { --fill-color: var(--color-ok); color: var(--color-ok); }
+.status-warning { --fill-color: var(--color-warning); color: var(--color-warning); }
+.status-danger { --fill-color: var(--color-danger); color: var(--color-danger); }
