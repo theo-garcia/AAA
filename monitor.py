@@ -37,7 +37,27 @@ def get_win_os_version():
         return f"os_version: Windows 11"
     else:
         return f"os_version: Windows 10"      
-      
+def get_process_infos():
+    all_processes = []
+    for p in psutil.process_iter(["name","cpu_percent",'memory_percent',"num_threads"]):
+        try:
+            p.info["cpu_percent"] = p.info["cpu_percent"] or 0
+            p.info["memory_percent"] = p.info["memory_percent"] or 0
+            all_processes.append(p.info)
+        except (psutil.NoSuchProcess,psutil.AccessDenied):
+            pass
+    all_processes.sort(key=lambda x: x['cpu_percent'], reverse=True)
+    list_rows_html = ""
+    for p in all_processes[:10]:
+        list_rows_html += f"<tr><td>{p['name']}</td><td>{p['cpu_percent']}%</td><td>{round(p['memory_percent'], 2)}%</td></tr>"
+    top_rows_html = ""
+    for p in all_processes[:3]:
+        top_rows_html += f"<tr><td>{p['name']}</td><td>{p['num_threads']}</td></tr>"
+    return {
+        "list_rows": list_rows_html,
+        "top3_rows": top_rows_html
+    }
+
 def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
         content = template.read()
@@ -53,6 +73,7 @@ execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
+process_infos = get_process_infos()
     
 var_list = [    
                 {'label': '{{ cpu_nb_threads }}', 'value' : str(cpu_infos['nb_threads'])},
@@ -67,7 +88,9 @@ var_list = [
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
                 {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
-                {'label': '{{ date_execution }}', 'value': execution_date}
+                {'label': '{{ date_execution }}', 'value': execution_date},
+                {'label': '{{ process_stats_rows }}', 'value': process_infos['list_rows']},
+                {'label': '{{ top_process_rows }}', 'value': process_infos['top3_rows']}
             ]
 
 html_page_builder('template.html',var_list)
