@@ -1,16 +1,14 @@
-import psutil                    # CPU and RAM
+import psutil                    # CPU and RAM and IP
 import platform                  # hostname and OS
-import netifaces                  # IP
 from datetime import datetime    # timestamps formats
 import sys                       # windows version 
 import os                        # system commands
-import shutil
-import time
+import shutil                    # copy commands
+import time                      # wait
 
-
-target_folder = "/home/emerald/"
 script_parent_folder_path = os.path.dirname(__file__)
-html_root_path = "/var/www/html"
+target_folder = script_parent_folder_path
+html_root_path = script_parent_folder_path
 
 exts = [
         '.txt', '.py', '.pdf', '.jpg',
@@ -83,6 +81,14 @@ def get_system_infos():
         version = sys.getwindowsversion().build
     else:
         version = platform.version()
+
+    interfaces = psutil.net_if_addrs().keys()
+    mac_n_ips = ""
+    for interface in interfaces:
+        mac_or_ips = psutil.net_if_addrs()[interface]
+        for mac_or_ip in mac_or_ips:
+            mac_n_ips += "<p>" +getattr(mac_or_ip,'address') + "</p>" 
+        mac_n_ips += "<hr>"
     return {
         "hostname": platform.node(),
         "os": os,
@@ -90,9 +96,9 @@ def get_system_infos():
         "boot_time": boot_time.strftime("%Y-%m-%d %H:%M:%S"),
         "uptime_hours": round(uptime_seconds / 3600, 2),
         "connected_users": len(psutil.users()),
-        "ip_address": netifaces.ifaddresses('ens33')[netifaces.AF_INET][0]['addr']
+        "mac_n_ips": mac_n_ips     
     }
-      
+
 def get_process_infos():
     all_processes = []
     for p in psutil.process_iter(["name","cpu_percent",'memory_percent',"num_threads"]):
@@ -149,8 +155,8 @@ def html_page_builder(template_path,var_list):
     with open(f'{html_root_path}/index.html', 'w') as file:
         file.write(content)
 
-shutil.copy(f"{script_parent_folder_path}/template.css",f"{html_root_path}/template.css")
-shutil.copytree(f"{script_parent_folder_path}/images",f"{html_root_path}/images", dirs_exist_ok=True)
+#shutil.copy(f"{script_parent_folder_path}/template.css",f"{html_root_path}/template.css")
+#shutil.copytree(f"{script_parent_folder_path}/images",f"{html_root_path}/images", dirs_exist_ok=True)
 
 while True:
     execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
@@ -180,7 +186,7 @@ while True:
                     {'label': '{{ boot_time }}', 'value' : str(system_infos['boot_time'])},
                     {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                     {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
-                    {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
+                    {'label': '{{ mac_n_ips }}', 'value' : str(system_infos['mac_n_ips'])},
                     {'label': '{{ date_execution }}', 'value': execution_date},
                     {'label': '{{ process_stats_rows }}', 'value': process_infos['list_rows']},
                     {'label': '{{ top_process_rows }}', 'value': process_infos['top3_rows']},
