@@ -147,7 +147,8 @@ def html_page_builder(template_path,var_list):
     with open('index.html', 'w') as file:
         file.write(content)
 
-#shutil.copy("template.css","/var/www/html/template.css")
+shutil.copy("/home/emerald/AAA/template.css","/var/www/html/template.css")
+shutil.copytree("/home/emerald/AAA/images", "/var/www/html/images", dirs_exist_ok=True)
 
 while True:
     execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
@@ -185,8 +186,6 @@ while True:
                     {'label': '{{ table_data }}', 'value' : table_data},
                     {'label': '{{ execution_date }}', 'value' : execution_date} 
                     ]
-                
-                
 
     html_page_builder('template.html',var_list)
     time.sleep(25)
