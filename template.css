@@ -7,9 +7,9 @@
     --border: #28653D;
     
     /* Status colors */
-    --color-ok: #9ece6a;
-    --color-warning: #e0af68;
-    --color-danger: #f7768e;
+    --ok: #9ece6a;
+    --loaded: #e0af68;
+    --almost-full: #f7768e;
 }
 
 body {
@@ -83,37 +83,56 @@ h2 {
     border-left: 3px solid var(--accent);
     padding-left: 10px;
 }
-
-.gauge-container {
+.gauge-container{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
 }
 
-.donut {
-    width: 140px;
-    height: 140px;
+.gauge {
+    width: 100%;
+    max-width: 250px;
+    font-family: "Roboto", sans-serif;
+    font-size: 32px;
+    color: #004033;
+}
+
+.gauge-body {
+    width: 100%;
+    height: 0;
+    padding-bottom: 50%;
+    background: #b4c0be;
+    position: relative;
+    border-top-left-radius: 100% 200%;
+    border-top-right-radius: 100% 200%;
+    overflow: hidden;
+}
+
+.gauge-fill {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: inherit;
+    height: 100%;
+    transform-origin: center top;
+}
+
+.gauge-cover {
+    width: 75%;
+    height: 150%;
+    background: #ffffff;
     border-radius: 50%;
-    background: conic-gradient(var(--fill-color) var(--percent), #16161e 0); 
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Text */
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-}
-
-.donut-value {
-    z-index: 1;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--text-titles);
-}
-
-.gauge-label {
-    margin-top: 15px;
-    font-size: 0.9rem;
-    opacity: 0.8;
+    padding-bottom: 25%;
+    box-sizing: border-box;
 }
 
 table {
@@ -130,7 +149,3 @@ th {
     font-weight: 600;
     border-bottom: 1px solid var(--border);
 }
-
-.status-ok { --fill-color: var(--color-ok); color: var(--color-ok); }
-.status-warning { --fill-color: var(--color-warning); color: var(--color-warning); }
-.status-danger { --fill-color: var(--color-danger); color: var(--color-danger); }

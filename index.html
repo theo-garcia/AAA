@@ -22,10 +22,10 @@
                     <h2>SYSTEM</h2>
                 </header>
                 <div>
-                    <h3>Hostname:</h3><span> DESKTOP-EFD9JOV</span></br>
-                    <h3>Last boot:</h3><span> 2025-12-10 18:12:47</span></br>
-                    <h3>OS:</h3><span> Windows</span></br>
-                    <h3>Version:</h3><span> {{ os_version }}</span></br>
+                    <h3>Hostname:</h3><span> FW-WIN-ARTHUR</span></br>
+                    <h3>Last boot:</h3><span> 2025-12-11 09:00:44</span></br>
+                    <h3>OS:</h3><span> Windows 11 or Server 2025</span></br>
+                    <h3>Version:</h3><span> 26200</span></br>
                 </div>
             </section>
             <section>
@@ -33,34 +33,41 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M176 24c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c-35.3 0-64 28.7-64 64l-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0 0 56-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0 0 56-40 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l40 0c0 35.3 28.7 64 64 64l0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40 56 0 0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40 56 0 0 40c0 13.3 10.7 24 24 24s24-10.7 24-24l0-40c35.3 0 64-28.7 64-64l40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0 0-56 40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0 0-56 40 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-40 0c0-35.3-28.7-64-64-64l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40-56 0 0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40-56 0 0-40zM160 128l192 0c17.7 0 32 14.3 32 32l0 192c0 17.7-14.3 32-32 32l-192 0c-17.7 0-32-14.3-32-32l0-192c0-17.7 14.3-32 32-32zm16 48l0 160 160 0 0-160-160 0z"/></svg>
                     <h2>CPU</h2>
                 </header>
-                <div class="gauge-container">
-                    <div class="donut status-{{ cpu_status }}" style="--percent: {{ cpu_percent }}deg;">
-                        <span class="donut-value">13.5<span>%</span></span>
+                <div class ="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-body">
+                            <div class="gauge-fill" style="background:var(--ok); transform:rotate(0.022000000000000002turn)"></div>
+                            <div class="gauge-cover"><span>4.4 %</span></div>
+                        </div>
                     </div>
-                    <div class="gauge-label">CPU Load</div>
+                    <div class="gauge-label"><h3>CPU Load</h3></div>
                 </div>
-                <div>
-                    <h3>Threads: </h3><span> 16</span>
-                </div>
+                <h3>Threads: </h3><span> 16</span><br>
+                <h3>Frequency: </h3><span> 1700.0 Hz</span>
             </section>
             <section>
                 <header>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 64C28.7 64 0 92.7 0 128l0 7.4C0 142.2 4.4 148 10.1 151.7 23.3 160.3 32 175.1 32 192s-8.7 31.7-21.9 40.3C4.4 236 0 241.8 0 248.6l0 55.4 512 0 0-55.4c0-6.8-4.4-12.6-10.1-16.3-13.2-8.6-21.9-23.4-21.9-40.3s8.7-31.7 21.9-40.3c5.7-3.7 10.1-9.5 10.1-16.3l0-7.4c0-35.3-28.7-64-64-64L64 64zM512 416l0-64-512 0 0 64c0 17.7 14.3 32 32 32l64 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 88 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 88 0 0-24c0-13.3 10.7-24 24-24s24 10.7 24 24l0 24 64 0c17.7 0 32-14.3 32-32zM160 160l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32zm128 0l0 64c0 17.7-14.3 32-32 32s-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32s32 14.3 32 32z"/></svg>
                     <h2>RAM</h2>
                 </header>
-                <div class="gauge-container">
-                    <div class="donut status-{{ ram_status }}">
-                        <span class="donut-value">52.0<span>%</span></span>
+                <div class ="gauge-container">
+                    <div class="gauge">
+                        <div class="gauge-body">
+                            <div class="gauge-fill" style="background:var(--loaded); transform:rotate(0.276turn)"></div>
+                            <div class="gauge-cover"><span>55.2 %</span></div>
+                        </div>
                     </div>
-                    <div class="gauge-label">7 Go / 13 Go</div>
+                    <div class="gauge-label"><h3>RAM LOAD</h3></div>
                 </div>
+                <h3>RAM USED: </h3><span> 9 Go</span><br>
+                <h3>RAM SIZE: </h3><span> 16 Go</span>
             </section>
             <section>
                 <header>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M248 88l80 0 0 48-80 0 0-48zm-8-56c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l16 0 0 32-224 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 192 0 0 32-16 0c-26.5 0-48 21.5-48 48l0 64c0 26.5 21.5 48 48 48l96 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-16 0 0-32 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-224 0 0-32 16 0c26.5 0 48-21.5 48-48l0-64c0-26.5-21.5-48-48-48l-96 0zM448 376l8 0 0 48-80 0 0-48 72 0zm-256 0l8 0 0 48-80 0 0-48 72 0z"/></svg>
                     <h2>NETWORK</h2>
                 </header>
-                <h3>IP ADDRESS: </h3><span>192.168.1.128</span>
+                <h3>IP ADDRESS: </h3><span>10.10.13.174</span>
             </section>
             <section>
                 <header>
@@ -97,36 +104,23 @@
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 32C28.7 32 0 60.7 0 96L0 260.1C18.1 247.4 40.2 240 64 240l320 0c23.8 0 45.9 7.4 64 20.1L448 96c0-35.3-28.7-64-64-64L64 32zM448 352c0-35.3-28.7-64-64-64L64 288c-35.3 0-64 28.7-64 64l0 64c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-64zM224 384a32 32 0 1 1 64 0 32 32 0 1 1 -64 0zm128-32a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
                     <h2>STORAGE SCAN</h2>
                 </header> 
-                    <p>({{ target_folder }})</p>
-                <div>
+                    <p>(/home/emerald/)</p>
                     <div>
-                        <h3>SIZE BY TYPE</h3>
-                        <table>
-                            <thead>
-                                <tr><th>TYPE</th><th>FILES</th><th>SIZE</th></tr>
-                            </thead>
-                            <tbody>
-                                {{ files_stats_rows }}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                        <h3>TOP 5 SIZE</h3>
-                        <table>
-                            <thead>
-                                <tr><th>FILE'S NAME</th><th>SIZE</th></tr>
-                            </thead>
-                            <tbody>
-                                {{ top_files_rows }}
-                            </tbody>
-                        </table>
-                    </div>
+                    <h3>SIZE BY TYPE</h3>
+                    <table>
+                        <thead>
+                            <tr><th>TYPES</th><th>AMOUNT</th><th>PERCENTAGE</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>.txt</td><td>0</td><td>0%</td></tr><tr><td>.py</td><td>0</td><td>0%</td></tr><tr><td>.pdf</td><td>0</td><td>0%</td></tr><tr><td>.jpg</td><td>0</td><td>0%</td></tr><tr><td>.png</td><td>0</td><td>0%</td></tr><tr><td>.docx</td><td>0</td><td>0%</td></tr><tr><td>.xlsx</td><td>0</td><td>0%</td></tr><tr><td>.zip</td><td>0</td><td>0%</td></tr><tr><td>.mp4</td><td>0</td><td>0%</td></tr><tr><td>.mp3</td><td>0</td><td>0%</td></tr><tr><td>.iso</td><td>0</td><td>0%</td></tr><tr><td>.json</td><td>0</td><td>0%</td></tr><tr><td>.html</td><td>0</td><td>0%</td></tr><tr><td>.css</td><td>0</td><td>0%</td></tr><tr><td>.js</td><td>0</td><td>0%</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </section>
         </main>
         <footer>
             <h2>LAST UPDATE</h2>
-            <span>{{ execution_date }}</span>
+            <span>2025-12-11 11:25:19</span>
         </footer>
     </body>
 </html>
