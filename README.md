@@ -24,7 +24,7 @@ Emerald is a simple python web monitor. It displays several system, network, pro
 - **python3**
 - **pip**
   - psutils
-  - netifaces
+  - netifaces2
 
 ### Install
 
