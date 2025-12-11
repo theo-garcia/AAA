@@ -15,18 +15,36 @@ exts = [
         ]
 
 def get_cpu_infos():
+    load = psutil.cpu_percent(interval=1)
+    if load <= 50:
+        state = "--ok"
+    elif load <= 80:
+        state = "--loaded"
+    else:
+        state = "--almost-full"
     return {
         "nb_threads": psutil.cpu_count(logical=True),
         "frequency": psutil.cpu_freq().current,
-        "load": psutil.cpu_percent(interval=1)
+        "load": load,
+        "state": state,
+        "load_deg": load /200
     }
 
 def get_memory_infos():
     mem = psutil.virtual_memory()
+    load = mem.percent
+    if load <= 50:
+        state = "--ok"
+    elif load <= 80:
+        state = "--loaded"
+    else:
+        state = "--almost-full"
     return {
         "size": round(mem.total / (1024**3)),
         "used": round(mem.used / (1024**3)),
-        "load": mem.percent
+        "load": load,
+        "state": state,
+        "load_deg": load / 200
     }
 
 def get_system_infos():
@@ -116,9 +134,13 @@ var_list = [
                 {'label': '{{ cpu_nb_threads }}', 'value' : str(cpu_infos['nb_threads'])},
                 {'label': '{{ cpu_frequency }}', 'value' : str(cpu_infos['frequency'])},
                 {'label': '{{ cpu_load }}', 'value' : str(cpu_infos['load'])},
+                {'label': '{{ cpu_load_deg }}', 'value' : str(cpu_infos['load_deg'])},
+                {'label': '{{ cpu_state }}', 'value' : str(cpu_infos['state'])},
                 {'label': '{{ ram_size }}', 'value' : str(memory_infos['size'])},
                 {'label': '{{ ram_used }}', 'value' : str(memory_infos['used'])},
                 {'label': '{{ ram_load }}', 'value' : str(memory_infos['load'])},
+                {'label': '{{ ram_load_deg }}', 'value' : str(memory_infos['load_deg'])},
+                {'label': '{{ ram_state }}', 'value' : str(memory_infos['state'])},
                 {'label': '{{ hostname }}', 'value' : str(system_infos['hostname'])},
                 {'label': '{{ os }}', 'value' : str(system_infos['os'])},
                 {'label': '{{ version }}', 'value' : str(system_infos['version'])},
