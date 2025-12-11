@@ -144,7 +144,7 @@ def html_page_builder(template_path,var_list):
         content = template.read()
         for var in var_list:
             content = content.replace(var['label'],var['value'])
-    with open('index.html', 'w') as file:
+    with open('/var/www/html/index.html', 'w') as file:
         file.write(content)
 
 shutil.copy("/home/emerald/AAA/template.css","/var/www/html/template.css")
@@ -187,5 +187,5 @@ while True:
                     {'label': '{{ execution_date }}', 'value' : execution_date} 
                     ]
 
-    html_page_builder('template.html',var_list)
+    html_page_builder('/home/emerald/AAA/template.html',var_list)
     time.sleep(25)
