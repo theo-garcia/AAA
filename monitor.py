@@ -1,6 +1,6 @@
 import psutil                    # CPU and RAM
 import platform                  # hostname and OS
-import netiface                  # IP
+import netifaces                  # IP
 from datetime import datetime    # timestamps formats
 import sys                       # windows version 
 import os                        # system commands
