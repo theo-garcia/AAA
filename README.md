@@ -18,7 +18,7 @@
 Emerald is a simple python web monitor. It displays several system, network, process and file informations about its host. 
 
 > [!WARNING]
-> Emerald works on Ubuntu, but we officially support and target Windows and UNIX environments.
+> Emerald works on Ubuntu, but we will soon officially support and target Windows and UNIX environments.
 
 ### Dependencies
 - **python3**
