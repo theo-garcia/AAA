@@ -1,6 +1,6 @@
 import psutil                    # CPU and RAM
 import platform                  # hostname and OS
-import socket                    # IP
+import netiface                  # IP
 from datetime import datetime    # timestamps formats
 import sys                       # windows version 
 import os                        # system commands
@@ -9,6 +9,8 @@ import time
 
 
 target_folder = "/home/emerald/"
+script_parent_folder_path = os.path.dirname(__file__)
+html_root_path = "/var/www/html"
 
 exts = [
         '.txt', '.py', '.pdf', '.jpg',
@@ -88,7 +90,7 @@ def get_system_infos():
         "boot_time": boot_time.strftime("%Y-%m-%d %H:%M:%S"),
         "uptime_hours": round(uptime_seconds / 3600, 2),
         "connected_users": len(psutil.users()),
-        "ip_address": socket.gethostbyname(socket.gethostname())
+        "ip_address": netifaces.ifaddresses('ens33')[netifaces.AF_INET][0]['addr']
     }
       
 def get_process_infos():
@@ -106,7 +108,7 @@ def get_process_infos():
         list_rows_html += f"<tr><td>{p['name']}</td><td>{p['cpu_percent']}%</td><td>{round(p['memory_percent'], 2)}%</td></tr>"
     top_rows_html = ""
     for p in all_processes[:3]:
-        top_rows_html += f"<tr><td>{p['name']}</td><td>{p['num_threads']}</td></tr>"
+        top_rows_html += f"<tr><td>{p['name']}</td><td>{p['cpu_percent']}%</td><td>{round(p['memory_percent'], 2)}%</td></tr>"
     return {
         "list_rows": list_rows_html,
         "top3_rows": top_rows_html
@@ -144,11 +146,11 @@ def html_page_builder(template_path,var_list):
         content = template.read()
         for var in var_list:
             content = content.replace(var['label'],var['value'])
-    with open('/var/www/html/index.html', 'w') as file:
+    with open(f'{html_root_path}/index.html', 'w') as file:
         file.write(content)
 
-shutil.copy("/home/emerald/AAA/template.css","/var/www/html/template.css")
-shutil.copytree("/home/emerald/AAA/images", "/var/www/html/images", dirs_exist_ok=True)
+shutil.copy(f"{script_parent_folder_path}/template.css",f"{html_root_path}/template.css")
+shutil.copytree(f"{script_parent_folder_path}/images",f"{html_root_path}/images", dirs_exist_ok=True)
 
 while True:
     execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
@@ -187,5 +189,5 @@ while True:
                     {'label': '{{ execution_date }}', 'value' : execution_date} 
                     ]
 
-    html_page_builder('/home/emerald/AAA/template.html',var_list)
+    html_page_builder(f'{script_parent_folder_path}/template.html',var_list)
     time.sleep(25)
