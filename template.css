@@ -2,8 +2,8 @@
     --bg-color: #121212;
     --section-bg: #121212;
     --text-primary: #ffffff;
-    --text-titles: #28653d;
-    --accent: #28653D;            
+    --text-titles: ##80bf91;
+    --accent: ##80bf91;            
     --border: #28653D;
     
     /* Status colors */
@@ -120,7 +120,7 @@ h2 {
 .gauge-cover {
     width: 75%;
     height: 150%;
-    background: #ffffff;
+    background: var(--section-bg);
     border-radius: 50%;
     position: absolute;
     top: 25%;
