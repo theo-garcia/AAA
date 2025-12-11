@@ -5,6 +5,8 @@ from datetime import datetime    # timestamps formats
 import sys                       # windows version 
 import os                        # system commands
 
+target_folder = "/home/emerald/"
+
 exts = [
         '.txt', '.py', '.pdf', '.jpg',
         '.png', '.docx', '.xlsx',
@@ -30,23 +32,45 @@ def get_memory_infos():
 def get_system_infos():
     boot_time = datetime.fromtimestamp(psutil.boot_time())
     uptime_seconds = (datetime.now() - boot_time).total_seconds()
+    os = platform.system()
+    if os == "Windows":
+        build = sys.getwindowsversion().build
+        if build < 950:
+            os = "Old Windows Version"
+        elif build == 950:        
+            os = "Windows 95"
+        elif build == 1381:
+            os = "Windows NT 4.0"
+        elif build == 1998 or build == "2222A":
+            os = "Windows 98"
+        elif build == 2195:
+            os = "Windows 2000"
+        elif 2600 <= build <= 3790:  
+            os = "Windows XP or Server 2003"
+        elif build == 7601:
+            os = "Windows 7 or Server 2008 R2"
+        elif 9200 <= build <= 9600:
+            os = "Windows 8 or Server 2012"
+        elif 10240 <= build <= 20348:
+            os = "Windows 10 or Server 2016-2022"
+        elif 22000 <= build <= 30100:
+            os = "Windows 11 or Server 2025"
+        else:
+            os = "Unknown Windows system"
+        version = sys.getwindowsversion().build
+    else:
+        version = platform.version()
     return {
         "hostname": platform.node(),
-        "os": platform.system(),
+        "os": os,
+        "version": version,
         "boot_time": boot_time.strftime("%Y-%m-%d %H:%M:%S"),
         "uptime_hours": round(uptime_seconds / 3600, 2),
         "connected_users": len(psutil.users()),
         "ip_address": socket.gethostbyname(socket.gethostname())
-    }
-
-def get_win_os_version():
-    ver = sys.getwindowsversion().build
-    if ver >= 22000:
-        return f"os_version: Windows 11"
-    else:
-        return f"os_version: Windows 10"      
+    } 
       
-def count_exts(folder):
+def get_exts_counts(folder):
     counts = {ext: 0 for ext in exts}
     for root, dirs, files in os.walk(folder):
         for file in files:
@@ -56,10 +80,21 @@ def count_exts(folder):
     total = sum(counts.values())
     return counts, total
 
-def get_exts_distribution(count, total):
+def get_exts_percentages(counts, total):
+    distributions = {ext: 0 for ext in exts}
     if total == 0:
-        return "0%"
-    return f"({count * 100 / total:.2f}%)"
+        for count in counts:
+            distributions[count] = "0%"
+        return distributions
+    for count in counts:
+        distributions[count] = f"{counts[count] * 100 / total:.2f}%"
+    return distributions
+
+def get_html_table_data_string_from_list(data_list,dict1,dict2):
+    table_data = ""
+    for data in data_list:
+        table_data += ("<tr><td>"+ str(data) + "</td><td>" + str(dict1[data]) + "</td><td>" + str(dict2[data]) + "</td></tr>")
+    return table_data
 
 def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
@@ -69,17 +104,14 @@ def html_page_builder(template_path,var_list):
     with open('index.html', 'w') as file:
         file.write(content)
 
-""" if platform.system()=="Windows":
-    print(get_win_os_version())      """
-
-folder_to_inspect = input("Path of the folder to inspect : ")
-
 execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")   
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
-counts, total = count_exts(folder_to_inspect)
-    
+counts, total = get_exts_counts(target_folder)
+percentages = get_exts_percentages(counts, total)
+table_data = get_html_table_data_string_from_list(exts,counts,percentages)
+
 var_list = [    
                 {'label': '{{ cpu_nb_threads }}', 'value' : str(cpu_infos['nb_threads'])},
                 {'label': '{{ cpu_frequency }}', 'value' : str(cpu_infos['frequency'])},
@@ -89,17 +121,14 @@ var_list = [
                 {'label': '{{ ram_load }}', 'value' : str(memory_infos['load'])},
                 {'label': '{{ hostname }}', 'value' : str(system_infos['hostname'])},
                 {'label': '{{ os }}', 'value' : str(system_infos['os'])},
+                {'label': '{{ version }}', 'value' : str(system_infos['version'])},
                 {'label': '{{ boot_time }}', 'value' : str(system_infos['boot_time'])},
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
                 {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
-                {'label': '{{ execution_date }}', 'value' : str(execution_date)}
+                {'label': '{{ target_folder }}', 'value' : target_folder},
+                {'label': '{{ table_data }}', 'value' : table_data},
+                {'label': '{{ execution_date }}', 'value' : execution_date}
             ]
+
 html_page_builder('template.html',var_list)
-
-counts, total = count_exts(folder_to_inspect)
-
-for ext in exts:
-    print(f"Files {ext:<5} :", counts[ext], get_exts_distribution(counts[ext], total))
-
-print("Total files analyzed :", total)
