@@ -86,33 +86,28 @@ def get_system_infos():
         "uptime_hours": round(uptime_seconds / 3600, 2),
         "connected_users": len(psutil.users()),
         "ip_address": socket.gethostbyname(socket.gethostname())
-    } 
+    }
       
-def get_exts_counts(folder):
-    counts = {ext: 0 for ext in exts}
-    for root, dirs, files in os.walk(folder):
-        for file in files:
-            ext = os.path.splitext(file)[1].lower()
-            if ext in counts:
-                counts[ext] += 1
-    total = sum(counts.values())
-    return counts, total
-
-def get_exts_percentages(counts, total):
-    distributions = {ext: 0 for ext in exts}
-    if total == 0:
-        for count in counts:
-            distributions[count] = "0%"
-        return distributions
-    for count in counts:
-        distributions[count] = f"{counts[count] * 100 / total:.2f}%"
-    return distributions
-
-def get_html_table_data_string_from_list(data_list,dict1,dict2):
-    table_data = ""
-    for data in data_list:
-        table_data += ("<tr><td>"+ str(data) + "</td><td>" + str(dict1[data]) + "</td><td>" + str(dict2[data]) + "</td></tr>")
-    return table_data
+def get_process_infos():
+    all_processes = []
+    for p in psutil.process_iter(["name","cpu_percent",'memory_percent',"num_threads"]):
+        try:
+            p.info["cpu_percent"] = p.info["cpu_percent"] or 0
+            p.info["memory_percent"] = p.info["memory_percent"] or 0
+            all_processes.append(p.info)
+        except (psutil.NoSuchProcess,psutil.AccessDenied):
+            pass
+    all_processes.sort(key=lambda x: x['cpu_percent'], reverse=True)
+    list_rows_html = ""
+    for p in all_processes[:10]:
+        list_rows_html += f"<tr><td>{p['name']}</td><td>{p['cpu_percent']}%</td><td>{round(p['memory_percent'], 2)}%</td></tr>"
+    top_rows_html = ""
+    for p in all_processes[:3]:
+        top_rows_html += f"<tr><td>{p['name']}</td><td>{p['num_threads']}</td></tr>"
+    return {
+        "list_rows": list_rows_html,
+        "top3_rows": top_rows_html
+    }
 
 def html_page_builder(template_path,var_list):
     with open(template_path, 'r') as template:
@@ -126,6 +121,8 @@ execution_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 cpu_infos = get_cpu_infos()
 memory_infos = get_memory_infos()
 system_infos = get_system_infos()
+process_infos = get_process_infos()
+   
 counts, total = get_exts_counts(target_folder)
 percentages = get_exts_percentages(counts, total)
 table_data = get_html_table_data_string_from_list(exts,counts,percentages)
@@ -148,6 +145,9 @@ var_list = [
                 {'label': '{{ uptime_hours }}', 'value' : str(system_infos['uptime_hours'])},
                 {'label': '{{ connected_users }}', 'value' : str(system_infos['connected_users'])},
                 {'label': '{{ ip_address }}', 'value' : str(system_infos['ip_address'])},
+                {'label': '{{ date_execution }}', 'value': execution_date},
+                {'label': '{{ process_stats_rows }}', 'value': process_infos['list_rows']},
+                {'label': '{{ top_process_rows }}', 'value': process_infos['top3_rows']}
                 {'label': '{{ target_folder }}', 'value' : target_folder},
                 {'label': '{{ table_data }}', 'value' : table_data},
                 {'label': '{{ execution_date }}', 'value' : execution_date}
